@@ -4,19 +4,42 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Trivia Game</title>
+    <title>Movie Trivia</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
     <body>
 
+    <div class="container">
+        <div class="header text-center clearfix">
+            <h1>Movie Trivia Game!</h1>
+        </div>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <div id="game">
+                <h2>Click on the button below to start</h2>
+                <p class="hide-on-start" id="remaining-time">Remaining Time:</p>
+                <p id="question"></p>
+                </div>
+            <div id="results">
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="choices" class="text-center">
+                <button id="start" class="btn btn-info btn-lg">Start Game</button>
+                <div id="options">
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End of container -->
 
         <!-- jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
         <!-- Bootstrap -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
         <!-- Script -->
         <script src="assets/javascript/app.js"></script>
 
