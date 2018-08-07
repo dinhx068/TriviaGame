@@ -70,7 +70,7 @@ $(document).ready(function(){
     },
 
     selectQuestion: function() {
-      game.TIMER = 5;
+      game.TIMER = 15;
       $("#time-remaining").text(game.TIMER);
 
       if(!game.TIMERFLAG){
@@ -99,7 +99,7 @@ $(document).ready(function(){
       // When time hits 0
       else if (game.TIMER === -1){
         clearInterval(game.TIMERID);
-        resultId = setTimeout(game.checkGuess, 3000);
+        setTimeout(game.checkGuess, 3000);
         $("#display-answer").html("<h3>The correct answer was, " + Object.values(game.answer)[game.CURRENTQUESTION] + "</h3>");
       } 
       // When the game hits the last question and time runs out
@@ -114,13 +114,12 @@ $(document).ready(function(){
     },
 
     checkGuess: function(){
-      var resultId;
       var answerToQuestion = Object.values(game.answer)[game.CURRENTQUESTION];
       // When correct
       if ($(this).text() === answerToQuestion){
         game.CORRECT++;
         clearInterval(game.TIMERID);
-        resultId = setTimeout(game.setUpForNextQuestion, 3000);
+        setTimeout(game.setUpForNextQuestion, 3000);
 
         $(".choice-button").prop("disabled",true);
         $(this).addClass("btn-success").removeClass("btn-default");
@@ -132,7 +131,7 @@ $(document).ready(function(){
       else {
         game.INCORRECT++;
         clearInterval(game.TIMERID);
-        resultId = setTimeout(game.setUpForNextQuestion, 3000);
+        setTimeout(game.setUpForNextQuestion, 3000);
 
         $(".choice-button").prop("disabled",true);
         $(this).addClass("btn-danger").removeClass("btn-default");
