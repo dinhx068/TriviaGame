@@ -13,15 +13,15 @@
 
     <div class="container">
         <div class="header text-center clearfix">
-            <h1>Movie Trivia Game!</h1>
+            <h1 id="h1">Welcome to the Movie Trivia Game!</h1>
         </div>
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <div id="game">
                 <h2 id="h2">Click on the button below to start</h2>
-                <p class="hide-on-start" id="remaining-time">Time Remaining: <span id="time-remaining"></span></p>
-                <p id="question-display"></p>
+                <p class="hide-on-start" id="time">Time Remaining: <span id="time-remaining"></span></p>
+                <p id="display-question"></p>
                 </div>
             <div id="results">
             </div>
@@ -29,8 +29,8 @@
 
         <div class="row">
             <div id="selection" class="text-center">
-                <button id="start-button" class="btn btn-info btn-lg">Start Game</button>
-                <div id="options">
+                <button id="start-button" class="btn btn-lg">Start Game</button>
+                <div id="choices-to-choose-from">
                 </div>
             </div>
         </div>

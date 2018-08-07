@@ -9,10 +9,19 @@ body {
 h1 {
     font-family: 'Do Hyeon', sans-serif;
     color: white;
-    font-size: 64px;
+    font-size: 50px;
     padding: 12px;
+}
+
+#display-question {
+    font-size: 28px;
 }
 
 .hide-on-start {
     visibility: hidden;
 }
+
+.option {
+    margin: 10px;
+  }
+
