@@ -21,7 +21,7 @@ $(document).ready(function(){
       n6: "In the Hunger Games, what district is Thresh from?",
       n7: "In Frozen, how many sisters does Elsa have?",
       n8: 'Who does the voice of "Marty" in Madagascar?',
-      n9: "How many of the Ryan brothers died in WWII ?",
+      n9: "In Saving Private Ryan, how many of the Ryan's brothers died?",
       n10: "What actor was offered the role of Maximus, but turned it down?"
     },
     choices: {
@@ -52,7 +52,7 @@ $(document).ready(function(){
     // FUNCTIONS ====================================================================================================================================
     start: function() {
       // If the player decides to click the Start Game button then the game resetting the variables below
-      game.CURRENTQUESTION = 0;
+      game.QUESTIONNUMBER = 0;
       game.CORRECT = 0;
       game.INCORRECT = 0;
       clearInterval(game.TIMERID);
@@ -60,7 +60,7 @@ $(document).ready(function(){
       $("#h1").text("Game in progress. . .");
       $("#h2").text("Choose your answer");
       $("#start-button").hide();
-      $("#results").html("");
+      $("#display-answer").html("");
       $("#main").show();
       document.getElementById("time").style.visibility = "visible";
       $("#remaining-time").show();
@@ -99,27 +99,29 @@ $(document).ready(function(){
       // When time hits 0
       else if (game.TIMER === -1){
         clearInterval(game.TIMERID);
-        setTimeout(game.checkGuess, 3000);
-        $("#display-answer").html("<h3>The correct answer was, " + Object.values(game.answer)[game.CURRENTQUESTION] + "</h3>");
+        setTimeout(game.checkGuess, 1000);
+        $("#display-answer").html("<h3>The correct answer was, " + Object.values(game.answer)[game.QUESTIONNUMBER] + "</h3>");
       } 
       // When the game hits the last question and time runs out
-      else if (game.CURRENTQUESTION === Object.keys(game.question).length){
-        $("#main").hide();
-        $("#start").show();
+      else if (game.QUESTIONNUMBER === Object.keys(game.question).length){
+
         $("#display-answer").html("<h3>Thanks for playing.</h3>" +
           "<p>Correct: " + game.CORRECT + "</p>" +
           "<p>Incorrect: " + game.INCORRECT + "</p>" +
           '<p>Click, "Start Game" to play again!</p>');
+
+          $("#main").hide();
+          $("#start-button").show(); // to resart the game
       }
     },
 
     checkGuess: function(){
-      var answerToQuestion = Object.values(game.answer)[game.CURRENTQUESTION];
+      var answerToQuestion = Object.values(game.answer)[game.QUESTIONNUMBER];
       // When correct
       if ($(this).text() === answerToQuestion){
         game.CORRECT++;
         clearInterval(game.TIMERID);
-        setTimeout(game.setUpForNextQuestion, 3000);
+        setTimeout(game.setUpForNextQuestion, 1000);
 
         $(".choice-button").prop("disabled",true);
         $(this).addClass("btn-success").removeClass("btn-default");
@@ -131,7 +133,7 @@ $(document).ready(function(){
       else {
         game.INCORRECT++;
         clearInterval(game.TIMERID);
-        setTimeout(game.setUpForNextQuestion, 3000);
+        setTimeout(game.setUpForNextQuestion, 1000);
 
         $(".choice-button").prop("disabled",true);
         $(this).addClass("btn-danger").removeClass("btn-default");
@@ -141,7 +143,7 @@ $(document).ready(function(){
   },
 
     setUpForNextQuestion : function(){
-      game.CURRENTQUESTION++;
+      game.QUESTIONNUMBER++;
       $(".choice-button").remove();
       $("#display-answer h3").remove();
       document.getElementById("display-answer").style.visibility = "hidden";
