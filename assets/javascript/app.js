@@ -1,13 +1,12 @@
 $(document).ready(function(){
   $("#start-button").on("click", game.start);
-  $(".choice-button").on("click", game.checkGuess);
+  $(document).on('click' , '.choice-button', game.checkGuess);
 })
   
   var game = {
     // Using caps for global variables
     CORRECT: 0,
     INCORRECT: 0,
-    DIDNOTANSWER: 0,
     QUESTIONNUMBER: 0,
     TIMER: 10,
     TIMERFLAG: false,
@@ -56,14 +55,13 @@ $(document).ready(function(){
       game.CURRENTQUESTION = 0;
       game.CORRECT = 0;
       game.INCORRECT = 0;
-      game.DIDNOTANSWER = 0;
       clearInterval(game.TIMERID);
 
       $("#h1").text("Game in progress. . .");
       $("#h2").text("Choose your answer");
       $("#start-button").hide();
       $("#results").html("");
-      $("#game").show();
+      $("#main").show();
       document.getElementById("time").style.visibility = "visible";
       $("#remaining-time").show();
       $("#time-remaining").text(game.TIMER);
@@ -72,7 +70,7 @@ $(document).ready(function(){
     },
 
     selectQuestion: function() {
-      game.TIMER = 15;
+      game.TIMER = 5;
       $("#time-remaining").text(game.TIMER);
 
       if(!game.TIMERFLAG){
@@ -85,22 +83,70 @@ $(document).ready(function(){
       
       var choices = Object.values(game.choices)[game.QUESTIONNUMBER];
       console.log(choices);
-
+      
+      // Creation of buttons for the user choices for the current question
       $.each(choices, function(index, key){
-        $("#choices-to-choose-from").append($('<button class="choice-button btn btn-default btn-lg btn-block">' + key + '</button>'));
+        $("#choices-to-choose-from").append($('<button class="choice-button btn btn-default btn-lg btn-block">' + key + "</button>"));
       })
     },
 
     timeLeft: function() {
-      if(game.TIMER > -1 && game.QUESTIONNUMBER < Object.keys(game.question).length){
+      // When game is running
+      if (game.TIMER > -1 && game.QUESTIONNUMBER < Object.keys(game.question).length){
         $("#time-remaining").text(game.TIMER);
-        console.log(game.TIMER);
         game.TIMER--;
+      } 
+      // When time hits 0
+      else if (game.TIMER === -1){
+        clearInterval(game.TIMERID);
+        resultId = setTimeout(game.checkGuess, 3000);
+        $("#display-answer").html("<h3>The correct answer was, " + Object.values(game.answer)[game.CURRENTQUESTION] + "</h3>");
+      } 
+      // When the game hits the last question and time runs out
+      else if (game.CURRENTQUESTION === Object.keys(game.question).length){
+        $("#main").hide();
+        $("#start").show();
+        $("#display-answer").html("<h3>Thanks for playing.</h3>" +
+          "<p>Correct: " + game.CORRECT + "</p>" +
+          "<p>Incorrect: " + game.INCORRECT + "</p>" +
+          '<p>Click, "Start Game" to play again!</p>');
       }
     },
 
     checkGuess: function(){
-      console.log("testing guess");
-    },
-    
-  }
+      var resultId;
+      var answerToQuestion = Object.values(game.answer)[game.CURRENTQUESTION];
+      // When correct
+      if ($(this).text() === answerToQuestion){
+        game.CORRECT++;
+        clearInterval(game.TIMERID);
+        resultId = setTimeout(game.setUpForNextQuestion, 3000);
+
+        $(".choice-button").prop("disabled",true);
+        $(this).addClass("btn-success").removeClass("btn-default");
+        document.getElementById("display-answer").style.visibility = "visible";
+        $("#display-answer").html("<h3>That is correct!</h3>");
+        
+    }
+    // When incorrect
+      else {
+        game.INCORRECT++;
+        clearInterval(game.TIMERID);
+        resultId = setTimeout(game.setUpForNextQuestion, 3000);
+
+        $(".choice-button").prop("disabled",true);
+        $(this).addClass("btn-danger").removeClass("btn-default");
+        document.getElementById("display-answer").style.visibility = "visible";
+        $("#display-answer").html("<h3>The correct answer was, " + answerToQuestion + "</h3>");
+    }
+  },
+
+    setUpForNextQuestion : function(){
+      game.CURRENTQUESTION++;
+      $(".choice-button").remove();
+      $("#display-answer h3").remove();
+      document.getElementById("display-answer").style.visibility = "hidden";
+      game.selectQuestion();
+  },
+
+}
