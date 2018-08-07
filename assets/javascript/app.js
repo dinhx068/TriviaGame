@@ -74,15 +74,12 @@ $(document).ready(function(){
       $("#time-remaining").text(game.TIMER);
 
       if(!game.TIMERFLAG){
-        game.TIMERID = setInterval(game.timeLeft, 1000);
+        game.TIMERID = setInterval(game.timeLeft, 500);
       }
 
       var question = Object.values(game.question)[game.QUESTIONNUMBER];
-      console.log(question);
       $("#display-question").text(question);
-      
       var choices = Object.values(game.choices)[game.QUESTIONNUMBER];
-      console.log(choices);
       
       // Creation of buttons for the user choices for the current question
       $.each(choices, function(index, key){
@@ -91,27 +88,25 @@ $(document).ready(function(){
     },
 
     timeLeft: function() {
-      // When game is running
-      if (game.TIMER > -1 && game.QUESTIONNUMBER < Object.keys(game.question).length){
-        $("#time-remaining").text(game.TIMER);
-        game.TIMER--;
+      // When the game hits the last question and time runs out
+      if (game.QUESTIONNUMBER === Object.keys(game.question).length){
+        $("#display-answer").html("<h3>Thanks for playing.</h3>" +
+          "<p>Correct: " + game.CORRECT + "</p>" +
+          "<p>Incorrect: " + game.INCORRECT + "</p>" +
+          '<p>Click, "Start Game" to play again!</p>');
+  
+          $("#main").hide();
+          $("#start-button").show(); // to resart the game
       } 
+      // When game is running normally
+      else if (game.TIMER > -1 && game.QUESTIONNUMBER < Object.keys(game.question).length){
+        $("#time-remaining").text(game.TIMER);
+        game.TIMER--;      } 
       // When time hits 0
       else if (game.TIMER === -1){
         clearInterval(game.TIMERID);
         setTimeout(game.checkGuess, 1000);
         $("#display-answer").html("<h3>The correct answer was, " + Object.values(game.answer)[game.QUESTIONNUMBER] + "</h3>");
-      } 
-      // When the game hits the last question and time runs out
-      else if (game.QUESTIONNUMBER === Object.keys(game.question).length){
-
-        $("#display-answer").html("<h3>Thanks for playing.</h3>" +
-          "<p>Correct: " + game.CORRECT + "</p>" +
-          "<p>Incorrect: " + game.INCORRECT + "</p>" +
-          '<p>Click, "Start Game" to play again!</p>');
-
-          $("#main").hide();
-          $("#start-button").show(); // to resart the game
       }
     },
 
@@ -127,9 +122,8 @@ $(document).ready(function(){
         $(this).addClass("btn-success").removeClass("btn-default");
         document.getElementById("display-answer").style.visibility = "visible";
         $("#display-answer").html("<h3>That is correct!</h3>");
-        
     }
-    // When incorrect
+      // When incorrect
       else {
         game.INCORRECT++;
         clearInterval(game.TIMERID);
@@ -149,5 +143,5 @@ $(document).ready(function(){
       document.getElementById("display-answer").style.visibility = "hidden";
       game.selectQuestion();
   },
-
+  
 }
