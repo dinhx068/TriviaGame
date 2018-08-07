@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Movie Trivia</title>
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -18,17 +19,17 @@
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <div id="game">
-                <h2>Click on the button below to start</h2>
-                <p class="hide-on-start" id="remaining-time">Remaining Time:</p>
-                <p id="question"></p>
+                <h2 id="h2">Click on the button below to start</h2>
+                <p class="hide-on-start" id="remaining-time">Time Remaining: <span id="time-remaining"></span></p>
+                <p id="question-display"></p>
                 </div>
             <div id="results">
             </div>
         </div>
 
         <div class="row">
-            <div id="choices" class="text-center">
-                <button id="start" class="btn btn-info btn-lg">Start Game</button>
+            <div id="selection" class="text-center">
+                <button id="start-button" class="btn btn-info btn-lg">Start Game</button>
                 <div id="options">
                 </div>
             </div>
