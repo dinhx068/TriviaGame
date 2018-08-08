@@ -74,7 +74,7 @@ $(document).ready(function(){
       $("#time-remaining").text(game.TIMER);
 
       if(!game.TIMERFLAG){
-        game.TIMERID = setInterval(game.timeLeft, 500);
+        game.TIMERID = setInterval(game.timeLeft, 1000);
       }
 
       var question = Object.values(game.question)[game.QUESTIONNUMBER];
@@ -90,11 +90,13 @@ $(document).ready(function(){
     timeLeft: function() {
       // When the game hits the last question and time runs out
       if (game.QUESTIONNUMBER === Object.keys(game.question).length){
-        $("#display-answer").html("<h3>Thanks for playing.</h3>" +
+        $("#h1").text("The game has ended, thanks for playing!");
+
+        $("#display-answer").html("<h3>Results</h3>" +
           "<p>Correct: " + game.CORRECT + "</p>" +
           "<p>Incorrect: " + game.INCORRECT + "</p>" +
           '<p>Click, "Start Game" to play again!</p>');
-  
+
           $("#main").hide();
           $("#start-button").show(); // to resart the game
       } 
@@ -105,7 +107,8 @@ $(document).ready(function(){
       // When time hits 0
       else if (game.TIMER === -1){
         clearInterval(game.TIMERID);
-        setTimeout(game.checkGuess, 1000);
+        setTimeout(game.checkGuess, 2000);
+        $(".choice-button").prop("disabled",true);
         $("#display-answer").html("<h3>The correct answer was, " + Object.values(game.answer)[game.QUESTIONNUMBER] + "</h3>");
       }
     },
@@ -116,7 +119,7 @@ $(document).ready(function(){
       if ($(this).text() === answerToQuestion){
         game.CORRECT++;
         clearInterval(game.TIMERID);
-        setTimeout(game.setUpForNextQuestion, 1000);
+        setTimeout(game.setUpForNextQuestion, 2000);
 
         $(".choice-button").prop("disabled",true);
         $(this).addClass("btn-success").removeClass("btn-default");
@@ -127,7 +130,7 @@ $(document).ready(function(){
       else {
         game.INCORRECT++;
         clearInterval(game.TIMERID);
-        setTimeout(game.setUpForNextQuestion, 1000);
+        setTimeout(game.setUpForNextQuestion, 2000);
 
         $(".choice-button").prop("disabled",true);
         $(this).addClass("btn-danger").removeClass("btn-default");
@@ -140,7 +143,6 @@ $(document).ready(function(){
       game.QUESTIONNUMBER++;
       $(".choice-button").remove();
       $("#display-answer h3").remove();
-      document.getElementById("display-answer").style.visibility = "hidden";
       game.selectQuestion();
   },
   
